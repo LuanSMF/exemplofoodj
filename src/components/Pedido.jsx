@@ -3,9 +3,9 @@ import { useState } from "react"
 // Array de Objetos contendo o estado inicial do cardápio
 const cardapio =[
     {id:1,nome:"Combo-01",preco:25.00,disponivel:true,quatidade:0},
-    {id:2,nome:"Combo-01",preco:25.00,disponivel:false,quatidade:0},
-    {id:3,nome:"Combo-01",preco:25.00,disponivel:false,quatidade:0},
-    {id:4,nome:"Combo-01",preco:25.00,disponivel:true,quatidade:0},
+    {id:2,nome:"Combo-02",preco:50.00,disponivel:false,quatidade:0},
+    {id:3,nome:"Combo-03",preco:30.00,disponivel:false,quatidade:0},
+    {id:4,nome:"Combo-04",preco:40.00,disponivel:true,quatidade:0},
 ]
 
 const Pedido=() => {
@@ -48,10 +48,59 @@ const Pedido=() => {
         },10000) // 10 segundos
     }
   return (
-    <>
+    <div>
+        <div>
+            <h2>Cardápio do Restaurante</h2>
+            <div>
+                {produtosDisponiveis.map(produto =>(
+                    <div key={produto.id}>
+                            <span>{produto.nome} - R${produto.preco.toFixed(2)}</span>
+                            <div> 
+                                <button onClick={()=>AlterarQuantidade(produto.id, 1)}>
+                                -
+                                </button>
+                                <span>{produto.quatidade}</span>
 
-    </>
+                                <button onClick={()=>AlterarQuantidade(produto.id,+1)}>+</button>
+                            </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+        <hr className="border-gray-200 my-4"/>
+        <div>
+            <h3>Resumo da Entrega</h3>
+            {carrinho.length === 0?(
+                <p>Seu Carrinho esta vázio</p>
+            ):(
+                <ul>
+                    {carrinho.map(item =>(
+                        <li>
+                            <span>{item.id} X {item.nome}</span>
+                            <span>R${(item.preco*item.quatidade).toFixed(2)}</span>
+                        </li>
+                    ))}
+                <div>
+                    <span>Subtotal</span>
+                    <span>R${subTotal.toFixed(2)}</span>
+                </div>
+                <div>
+                    <span>Total a Pagar</span>
+                    <span>R${total.toFixed(2)}</span>
+                </div>
+                <button onClick={ConfirmarPedido}>
+                    {enviar ? "Enviando":"Confirmar Pedido"}
+                </button>
+                {status &&(
+                    <div>
+                    <strong>Alerta:</strong>{status}
+                    </div>
+                )}
+                </ul>
+            )}
+        </div>
+    </div>
   )
 }
 
-export default App
+export default Pedido
