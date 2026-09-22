@@ -1,4 +1,6 @@
-function App() {
+import Pedido from './components/Pedido'
+
+const App=() => {
   return (
     <>
 
